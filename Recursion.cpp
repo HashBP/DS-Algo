@@ -171,3 +171,45 @@ int main()
     return 0;
 }
 */
+
+//nCr using recursion
+/*
+#include<bits/stdc++.h>
+using namespace std;
+int combination(int n,int r){
+    if (n==r||r==0)
+    {
+        return 1;
+    }
+    else return combination(n-1,r)+combination(n-1,r-1);
+}
+int main()
+{
+    int n,r;
+    cin>>n>>r;
+    cout<<combination(n,r);
+    return 0;
+}
+*/
+
+//Tower of Hanoi using Recursion
+/*
+#include <bits/stdc++.h>
+using namespace std;
+void toh(int n, int a, int b, int c)
+{
+    if (n > 0)
+    {
+        toh(n - 1, a, c, b);
+        cout << "From " << a << " to " << c;
+        toh(n - 1, b, a, c);
+    }
+}
+int main()
+{
+    int n, a, b, c;
+    cin >> n >> a >> b >> c;
+    toh(n, a, b, c);
+    return 0;
+}
+*/
