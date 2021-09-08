@@ -439,3 +439,23 @@ int main()
     } while (p!=head);
 }
 */
+//Note:- Insertion and deletion in the Circular Linked List same as Linear one.
+
+//Doubly Linked List
+// A node pointing towardstwo other nodes.We can transverse forward and backward.
+/*
+Structure of a Doubly node
+
+struct node{
+    node *next;
+    node *prev;
+    int data;
+}
+*/
+/*
+//Operations like here can be performed same as linear LL in DLL :
+Insertion
+Deletion
+Circular
+Revrsal
+*/
