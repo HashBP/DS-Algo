@@ -144,123 +144,76 @@ Urinary Operators will have higher precidence and will commence from R - l .
 
 //Infix to Postfix Conversion
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <strings.h>
-struct Node
-{
-    char data;
-    struct Node *next;
-} *top = NULL;
-
-void push(char x)
-{
-    struct Node *t;
-    t = (struct Node *)malloc(sizeof(struct Node));
-    if (t == NULL)
-        printf("stack is full\n");
-    else
-    {
-        t->data = x;
-        t->next = top;
-        top = t;
-    }
-}
-char pop()
-{
-    struct Node *t;
-    char x = -1;
-    if (top == NULL)
-        printf("Stack is Empty\n");
-    else
-    {
-        t = top;
-        top = top->next;
-
-        x = t->data;
-        free(t);
-    }
-    return x;
-}
-void Display()
-{
-    struct Node *p;
-    p = top;
-    while (p != NULL)
-    {
-        printf("%d ", p->data);
-        p = p->next;
-    }
-    printf("\n");
-}
-int isBalanced(char *exp)
-{
-    int i;
-    for (i = 0; exp[i] != '\0'; i++)
-    {
-        if (exp[i] == '(')
-            push(exp[i]);
-        else if (exp[i] == ')')
-        {
-            if (top == NULL)
-                return 0;
-            pop();
-        }
-    }
-    if (top == NULL)
-        return 1;
-    else
-        return 0;
-}
-int pre(char x)
-
-{
-    if (x == '+' || x == '-')
-        return 1;
-    else if (x == '*' || x == '/')
+#include<bits/stdc++.h>
+using namespace std;
+ 
+//Function to return precedence of operators
+int prec(char c) {
+    if(c == '^')
+        return 3;
+    else if(c == '/' || c=='*')
         return 2;
-    return 0;
-}
-int isOperand(char x)
-{
-    if (x == '+' || x == '-' || x == '*' || x == '/')
-        return 0;
-    else
+    else if(c == '+' || c == '-')
         return 1;
+    else
+        return -1;
 }
-char *InToPost(char *infix)
-{
-    int i = 0, j = 0;
-    char *postfix;
-    int len = strlen(infix);
-    postfix = (char *)malloc((len + 2) * sizeof(char));
-    while (infix[i] != '\0')
-    {
-        if (isOperand(infix[i]))
-            postfix[j++] = infix[i++];
-        else
-        {
-            if (pre(infix[i]) > pre(top->data))
-                push(infix[i++]);
-            else
+ 
+// The main function to convert infix expression
+//to postfix expression
+void infixToPostfix(string s) {
+ 
+    stack<char> st; //For stack operations, we are using C++ built in stack
+    string result;
+ 
+    for(int i = 0; i < s.length(); i++) {
+        char c = s[i];
+ 
+        // If the scanned character is
+        // an operand, add it to output string.
+        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+            result += c;
+ 
+        // If the scanned character is an
+        // ‘(‘, push it to the stack.
+        else if(c == '(')
+            st.push('(');
+ 
+        // If the scanned character is an ‘)’,
+        // pop and to output string from the stack
+        // until an ‘(‘ is encountered.
+        else if(c == ')') {
+            while(st.top() != '(')
             {
-                postfix[j++] = pop();
+                result += st.top();
+                st.pop();
             }
+            st.pop();
+        }
+ 
+        //If an operator is scanned
+        else {
+            while(!st.empty() && prec(s[i]) <= prec(st.top())) {
+                result += st.top();
+                st.pop(); 
+            }
+            st.push(c);
         }
     }
-    while (top != NULL)
-        postfix[j++] = pop();
-
-    postfix[j] = '\0';
-    return postfix;
+ 
+    // Pop all the remaining elements from the stack
+    while(!st.empty()) {
+        result += st.top();
+        st.pop();
+    }
+ 
+    cout << result << endl;
 }
-int main()
-{
-    char *infix = "a+b*c-d/e";
-    push('#');
-    char *postfix = InToPost(infix);
-    printf("%s ", postfix);
-
+ 
+//Driver program to test above functions
+int main() {
+    string exp = "a+b*(c^d-e)^(f+g*h)-i";
+    infixToPostfix(exp);
     return 0;
 }
 */
